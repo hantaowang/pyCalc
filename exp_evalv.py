@@ -1,3 +1,6 @@
+from plotter import drawfunction, Plot
+import turtle
+
 # Null object
 class null:
     def __repr__(self):
@@ -127,7 +130,7 @@ def keyfinder(sequence, key, left=""):
         # Implements implicit multiplication
         elif not isoperator(expression(sequence.rest).first):
             sequence.rest = "*" + sequence.rest
-        if left != "":
+        if left != "" and left !="#":
             if not isoperator(left[-1]):
                 left = left + "*"
 
@@ -140,10 +143,9 @@ def keyfinder(sequence, key, left=""):
     # If the function finds the key in the sequence
     elif sequence.first == key:
         if sequence.first == "-" and left == "":
-
             #Special case for negative numbers
-            return Tree(0 - evalv_exp(sequence.rest))
-        # Returns Tree opbject with operator as the root
+            return string_to_tree("#" + sequence.rest)
+        # Returns Tree object with operator as the root
         return Tree(operator(sequence.first), string_to_tree(left), string_to_tree(sequence.rest))
     else:
         #Iterates through the whole sequence
@@ -171,8 +173,7 @@ def parentheses(sequence, left="", innercount=0):
 
 # Evaluates a tree and returns a number
 def evalv_tree(tree):
-
-    # Accounts for some negative numbers, denoated with a #
+    # Accounts for some negative numbers, denoted with a #
     if str(tree.root)[0] == "#":
         tree.root = "-" + tree.root[1:]
 
@@ -182,6 +183,9 @@ def evalv_tree(tree):
     else:
         # Returns the root number if not an operators
         try:
+            # If double negative
+            if tree.root[0:2] == "-#" or tree.root[0:2] == "##" or tree.root[0:2] == "--":
+                return float(tree.root[2:])
             return float(tree.root)
 
         # Handles an exception of unsupported symbols
@@ -196,17 +200,6 @@ def check_variable(seq):
     elif "pi" in seq:
         seq = seq.replace("pi", "3.141592653589793238462643383279502884197169399375105820974")
     return seq
-
-# Plot class to define bounds of function and interval
-class Plot:
-    accuracy = 500
-
-    def __init__(self, xmin, xmax, ymin=0, ymax=0):
-        self.xmin = xmin
-        self.xmax = xmax
-        self.ymin = ymin
-        self.ymax = ymax
-        self.xint = (xmax - xmin) / self.accuracy
 
 # Point class to not break abstraction barriers
 class Point:
@@ -227,8 +220,28 @@ class Table:
     def addinst(self, point):
         self.instances.append(point)
 
+    def evalvself(self):
+        self.first = self.instances[0].xvalue
+        self.last = self.instances[-1].xvalue
+
     def __repr__(self):
         return str(self.instances)
+
+    def __len__(self):
+        return len(self.instances)
+
+    def __iter__(self):
+        assert len(self.instances) > 0
+        self.now = 0
+        self.next = 1
+        return self
+
+    def __next__(self):
+        if self.now == len(self.instances):
+            return None
+        point = self.instances[self.now]
+        self.now, self.next = self.next, self.next + 1
+        return point
 
 # Evaluates a function with respect to x, returns a table
 def function_evalv(sequence, plot):
@@ -242,8 +255,14 @@ def function_evalv(sequence, plot):
         if "x" in instance:
             instance = instance.replace("x", "(" + "{0:.5f}".format(xnow) +")")
             k -= 1
-            table.addinst(Point(float("{0:.5f}".format(xnow)), float("{0:.5f}".format(evalv_exp(instance)))))
+            ypoint = evalv_exp(instance)
+            if isinstance(ypoint, complex):
+                table.addinst(Point(float("{0:.5f}".format(xnow)), None))
+            else:
+                table.addinst(Point(float("{0:.5f}".format(xnow)), float("{0:.5f}".format(ypoint))))
             xnow += plot.xint
+            if k == 0.5 * plot.accuracy:
+                xnow = 0
         else:
             # Raises exception where 'x' in not in the function
             raise SyntaxError("Function must have a 'x' value")
@@ -256,5 +275,12 @@ plot = Plot(-10, 10)
 def evalv_exp(string):
     exp = expression.remove_space(expression(string), string)
     if exp[0:5] == "f(x)=":
-        return function_evalv(exp[5:], plot)
-    return evalv_tree(string_to_tree(string))
+        Plot(-200, 200).setup(10)
+        drawfunction(function_evalv(exp[5:], plot))
+        return "See Graph"
+    elif exp[0:6] == "clear":
+        turtle.clear()
+        Plot(-200, 200).setup(10)
+        return "Graph Cleared"
+    else:
+        return evalv_tree(string_to_tree(string))

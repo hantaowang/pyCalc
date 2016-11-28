@@ -5,9 +5,7 @@ Available operators: + - * / ^ ( )
 Available symbols: e, pi
 To plot a function, start with function notation 'f(x)='
 and use the variable 'x' """)
-
 while True:
-
     sequence = input("\nEnter an equation or expression: ")
     try:
         print(evalv_exp(sequence))
