@@ -4,7 +4,7 @@ A simple graphing calculator built on Python
 Visit [hantaowang.me/pycalc](hantaowang.me/pycalc) to learn more.
 
 ####Try it Out
-To run pycalc, you must have [python3](https://www.python.org/download/releases/3.0/) installed along with a command line shell. Download the files and run `python3 interface.py` to begin. 
+To run pycalc, you must have [python3](https://www.python.org/download/releases/3.0/) installed along with a command line interpreter such as Terminal or Gitbash. Download the files and run `python3 interface.py` to begin. 
 
 Alternativetly, use the embedded python shell to on [hantaowang.me/pycalc](hantaowang.me/pycalc). However, due to the limitations of the shell, pyCalc runs noticabely slower and functions resulting in complex numbers may not evaluate.
 
