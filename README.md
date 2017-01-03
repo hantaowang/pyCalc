@@ -1,12 +1,12 @@
 # pyCalc
 A simple graphing calculator built on Python
 
-Visit [hantaowang.me/pycalc](hantaowang.me/pycalc) to learn more.
+Visit [hantaowang.me/pycalc](http://hantaowang.me/pycalc) to learn more.
 
 ####Try it Out
 To run pycalc, you must have [python3](https://www.python.org/download/releases/3.0/) installed along with a command line interpreter such as Terminal or Gitbash. Download the files and run `python3 interface.py` to begin. 
 
-Alternativetly, use the embedded python shell to on [hantaowang.me/pycalc](hantaowang.me/pycalc). However, due to the limitations of the shell, pyCalc runs noticabely slower and functions resulting in complex numbers may not evaluate.
+Alternativetly, use the embedded python shell to on [hantaowang.me/pycalc](http://hantaowang.me/pycalc). However, due to the limitations of the shell, pyCalc runs noticabely slower and functions resulting in complex numbers may not evaluate.
 
 Try expressions such as `5(4)^2+3` and equations such as `f(x)=x^2` or `f(x)=(9-x^2)^0.5`. To clear the graph, enter `clear`.
 
