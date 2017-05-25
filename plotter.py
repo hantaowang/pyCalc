@@ -18,7 +18,6 @@ class Plot:
         self.xint = (xmax - xmin) / self.accuracy
 
     def setup(self, interval):
-        turtle.setup(1.25*(abs(self.xmin) + abs(self.xmax)), 1.25*(abs(self.ymin) + abs(self.ymax)))
         turtle.speed(0)
         turtle.hideturtle()
         turtle.penup()
@@ -36,7 +35,7 @@ class Plot:
         turtle.goto(0, self.ymin)
         turtle.pendown()
         turtle.goto(0, self.ymax)
-        size = 200
+        size = 150
         xnow = size
         while xnow > -size:
             turtle.penup()
@@ -52,12 +51,12 @@ class Plot:
             turtle.goto(0, ynow)
             turtle.pendown()
             turtle.goto(size/50, ynow)
-            turtle.goto(-size / 50, ynow)
+            turtle.goto(-size /50, ynow)
             turtle.penup()
             ynow -= size / interval
 
 def drawfunction(table):
-    size = 200
+    size = 150
     table = rescale(table, size).__iter__()
     point = table.__next__()
     turtle.penup()

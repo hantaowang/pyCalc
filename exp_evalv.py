@@ -275,12 +275,12 @@ plot = Plot(-10, 10)
 def evalv_exp(string):
     exp = expression.remove_space(expression(string), string)
     if exp[0:5] == "f(x)=":
-        Plot(-200, 200).setup(10)
+        Plot(-150, 150).setup(10)
         drawfunction(function_evalv(exp[5:], plot))
         return "See Graph"
     elif exp[0:6] == "clear":
         turtle.clear()
-        Plot(-200, 200).setup(10)
+        Plot(-150, 150).setup(10)
         return "Graph Cleared"
     else:
         return evalv_tree(string_to_tree(string))
